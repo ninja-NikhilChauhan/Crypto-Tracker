@@ -23,11 +23,12 @@ const fetchCoins = async (page = 1) => {
 };
 
 // Retrieve favorites from localStorage (for star icon display)
-const getFavorites = () => JSON.parse(localStorage.getItem('favorites')) || [];
+// const getFavorites = () => JSON.parse(localStorage.getItem('favorites')) || [];
+//  ${isFavorite ? 'favorite' : ''}" data-id="${coin.id}"> // to toggle icon
 
 // Render a single coin row (with favorite star icon)
-const renderCoinRow = (coin, index, start, favorites) => {
-    const isFavorite = favorites.includes(coin.id);
+const renderCoinRow = (coin, index, start) => {
+    // const isFavorite = favorites.includes(coin.id);
     const row = document.createElement('tr');
     row.innerHTML = `
         <td>${start + index}</td>
@@ -37,7 +38,7 @@ const renderCoinRow = (coin, index, start, favorites) => {
         <td>$${coin.total_volume.toLocaleString()}</td>
         <td>$${coin.market_cap.toLocaleString()}</td>
         <td>
-            <i class="fas fa-star favorite-icon ${isFavorite ? 'favorite' : ''}" data-id="${coin.id}"></i>
+            <i class="fas fa-star favorite-icon" ></i>
         </td>
     `;
     return row;
@@ -46,7 +47,7 @@ const renderCoinRow = (coin, index, start, favorites) => {
 // Render coins (Class 2 functionality)
 const renderCoins = (coinsToDisplay, page, itemsPerPage) => {
     const start = (page - 1) * itemsPerPage + 1;
-    const favorites = getFavorites();
+    // const favorites = getFavorites();
     const tableBody = document.querySelector('#crypto-table tbody');
     
     if (!tableBody) {
@@ -57,7 +58,7 @@ const renderCoins = (coinsToDisplay, page, itemsPerPage) => {
     tableBody.innerHTML = ''; // Clear existing rows before rendering new data
 
     coinsToDisplay.forEach((coin, index) => {
-        const row = renderCoinRow(coin, index, start, favorites);
+        const row = renderCoinRow(coin, index, start);
         tableBody.appendChild(row);
     });
 };
